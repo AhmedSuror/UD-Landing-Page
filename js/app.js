@@ -69,7 +69,33 @@ function buildNav(sectionsCount) {
 // Add class 'active' to section when near top of viewport
 
 // Scroll to anchor ID using scrollTO event
-
+/**
+ *
+ * @param {Element} sectionElement - The section to scroll to.
+ */
+function scrollToSection(sectionElement) {
+  let s_top = sectionElement.getBoundingClientRect().top;
+  let s_left = sectionElement.getBoundingClientRect().left;
+  console.log(sectionElement);
+  console.log(`section Top: ${s_top}`);
+  console.log(
+    `section Top + ScrollY: ${s_top} + ${window.scrollY} = ${
+      s_top + window.scrollY
+    }`
+  );
+  console.log(`section Left: ${s_left}`);
+  console.log(
+    `section Left + ScrollX: ${s_left} + ${window.scrollX} = ${
+      s_left + window.scrollX
+    }`
+  );
+  window.scrollTo({
+    top: s_top + window.scrollY,
+    left: s_left + window.scrollX,
+    behavior: "smooth",
+  });
+  console.log("scroll complete");
+}
 /**
  * End Main Functions
  * Begin Events
@@ -85,12 +111,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // Scroll to section on link click
 nav.addEventListener("click", (e) => {
+  //Disable link href behavior
+  e.preventDefault();
+  //Use event delegation to check for the correct target, and add .active class for the clicked menu item
   if (e.target.nodeName === "A") {
     let menuItems = document.querySelectorAll(".menu__link");
     for (let i = 0; i < menuItems.length; i++) {
       menuItems[i].classList.remove("active");
     }
     e.target.classList.add("active");
+    //Scroll to the section related to the menu item
+    let dataNav = e.target.getAttribute("data-nav");
+    let correspondingSection = document.querySelector(
+      `section[data-nav="${dataNav}"]`
+    );
+    scrollToSection(correspondingSection);
   }
 });
 
