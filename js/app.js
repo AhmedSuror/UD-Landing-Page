@@ -41,8 +41,8 @@ const nav = document.getElementById("navbar__list");
 // build the nav
 
 /**
- *Build the navigation menu.
- *@param {number} sectionsCount - The count of sections.
+ * Build the navigation menu.
+ * @param {number} sectionsCount - The count of sections.
  */
 function buildNav(sectionsCount) {
   for (let i = 0; i < sectionsCount; i++) {
@@ -63,50 +63,40 @@ function buildNav(sectionsCount) {
 }
 // Add class 'active' to section when near top of viewport
 /**
- *
+ * Activate a specific section.
  * @param {Element} section - The section to activate.
  */
 function activateSection(section) {
   let dataNav = section.getAttribute("data-nav");
+  // Deactivate all sections
   sections.forEach((element) => {
     element.classList.remove("activeSection");
   });
+  //Reactivate the current section
   section.classList.add("activeSection");
-
   let menuItems = document.querySelectorAll(".menu__link");
+  //Deactivate all menu links
   menuItems.forEach((element) => {
     element.classList.remove("active");
   });
+  //Activate the current sections' corresponding menu link
   let correspondingLink = document.querySelector(`a[data-nav="${dataNav}"]`);
   correspondingLink.classList.add("active");
 }
 // Scroll to anchor ID using scrollTO event
 /**
- *
+ * Scroll to a specific section.
  * @param {Element} sectionElement - The section to scroll to.
  */
 function scrollToSection(sectionElement) {
+  //Get boundaries of the section which need to be scrolled to
   let s_top = sectionElement.getBoundingClientRect().top;
   let s_left = sectionElement.getBoundingClientRect().left;
-  console.log(sectionElement);
-  console.log(`section Top: ${s_top}`);
-  console.log(
-    `section Top + ScrollY: ${s_top} + ${window.scrollY} = ${
-      s_top + window.scrollY
-    }`
-  );
-  console.log(`section Left: ${s_left}`);
-  console.log(
-    `section Left + ScrollX: ${s_left} + ${window.scrollX} = ${
-      s_left + window.scrollX
-    }`
-  );
   window.scrollTo({
     top: s_top + window.scrollY,
     left: s_left + window.scrollX,
     behavior: "smooth",
   });
-  console.log("scroll complete");
 }
 /**
  * End Main Functions
@@ -118,6 +108,7 @@ function scrollToSection(sectionElement) {
 /**
  *
  */
+//Build navBar after the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
   buildNav(sections.length);
 });
@@ -140,6 +131,7 @@ nav.addEventListener("click", (e) => {
 window.addEventListener("scroll", function () {
   //Display navBar when scrolling
   nav.style.display = "block";
+  //Get boundaries of sections ad if the boundaris is within viewport activate the section.
   sections.forEach((element) => {
     if (
       element.getBoundingClientRect().top >= -50 &&
