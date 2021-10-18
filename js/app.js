@@ -1,13 +1,8 @@
 /**
+ * Landing Page Project
  *
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
+ * Student: Ahmed Suror
  *
- * Dependencies: None
- *
- * JS Version: ES2015/ES6
  *
  * JS Standard: ESlint
  *
@@ -132,11 +127,6 @@ nav.addEventListener("click", (e) => {
   e.preventDefault();
   //Use event delegation to check for the correct target, and add .active class for the clicked menu item
   if (e.target.nodeName === "A") {
-    let menuItems = document.querySelectorAll(".menu__link");
-    // for (let i = 0; i < menuItems.length; i++) {
-    //   menuItems[i].classList.remove("active");
-    // }
-    // e.target.classList.add("active");
     //Scroll to the section related to the menu item
     let dataNav = e.target.getAttribute("data-nav");
     let correspondingSection = document.querySelector(
@@ -148,14 +138,20 @@ nav.addEventListener("click", (e) => {
 
 // Set sections as active
 window.addEventListener("scroll", function () {
+  //Display navBar when scrolling
+  nav.style.display = "block";
   sections.forEach((element) => {
     if (
-      element.getBoundingClientRect().top >= 0 &&
+      element.getBoundingClientRect().top >= -50 &&
       element.getBoundingClientRect().top <= 256 &&
-      element.getBoundingClientRect().left >= 0 &&
+      element.getBoundingClientRect().left >= -50 &&
       element.getBoundingClientRect().left <= 256
     ) {
       activateSection(element);
+      //Hide navBar when after scrolling by 1 second
+      setTimeout(() => {
+        nav.style.display = "none";
+      }, 1000);
     }
   });
 });
